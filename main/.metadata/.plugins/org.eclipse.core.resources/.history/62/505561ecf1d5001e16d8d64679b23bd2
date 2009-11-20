@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<project name="OWASP-CSRFTester" default="dist" basedir=".">
+	<property name="name" value="OWASP-CSRFTester-1.1" />
+	<property name="src" value="src" />
+	<property name="bin" value="bin" />
+	<property name="dist" value="dist" />
+
+	<path id="master-classpath" description="Master Classpath">
+			<fileset dir="lib">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="launch4j">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="launch4j/lib">
+				<include name="xstream.jar" />
+			</fileset>
+	</path>
+	
+	<target name="clean">
+		<delete file="${dist}/${name}.jar" />
+	</target>
+	
+	<target name="init" depends="clean">
+	<!-- 
+		<mkdir dir="${bin}"/>
+    -->
+	</target>
+	
+	<target name="compile" depends="init"> 
+		<javac srcdir="${src}" destdir="${bin}">
+		    <classpath>
+		        <fileset dir="./lib">
+		            <include name="*.jar"/>
+		        </fileset>
+		    </classpath> 
+		</javac>
+	</target>
+	
+	<target name="dist" depends="compile">
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/${name}.jar" basedir="${bin}">
+			<zipfileset src="lib/concurrent.jar" />
+			<manifest>
+				<attribute name="Main-Class" value="org.owasp.csrftester.CSRFTester" />
+				<attribute name="Build-At" value="OWASP APPSec DC 2009" />
+			</manifest>
+		</jar>
+	</target>
+	
+	<target name="exe" depends="dist" description="Creating Executable: OWASP-CSRFTester-1.1.exe">
+		<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpathref="master-classpath" />
+		<launch4j configFile="./release/launch4j.xml" />
+	</target>
+</project>
