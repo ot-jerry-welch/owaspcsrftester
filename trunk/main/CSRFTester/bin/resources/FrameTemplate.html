@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>OWASP CRSFTester Demonstration</title>
+</head>
+
+<body>
+<H2>OWASP CRSFTester Demonstration</H2>
+<iframe name="evilframe" style="visibility:hidden;height:0px;width:0px;border:0px"></iframe>
+<script>
+    function delay(millis)
+    {
+        var date = new Date();
+        var curDate = null;
+        
+        do
+        {
+            curDate = new Date();
+        } while (curDate - date < millis);
+    }
+
+    var evilframe = window.frames["evilframe"];
+    
+    <%ATTACK%>
+</script>
+</body>
+</html>
